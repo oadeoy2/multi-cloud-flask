@@ -1,0 +1,52 @@
+```gitignore
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.env
+*.db
+*.sqlite3
+.DS_Store
+docker-compose.override.yml
+*.log
+*.tar
+.env.*
+.vscode/
+.idea/
+
+node_modules/
+
+# Terraform directories and state
+terraform/aws/.terraform/
+terraform/aws/terraform.tfstate
+terraform/aws/terraform.tfstate.backup
+terraform/aws/*.tfvars
+
+# Byte-compiled / cache files
+__pycache__/
+*.py[cod]
+*.swp
+.env
+.env.*
+
+# Docker
+*.log
+*.tar
+*.gz
+
+# Terraform
+*.tfstate
+*.tfstate.backup
+*.tfvars
+.terraform/
+.crash/
+terraform.tfstate.d/
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+
+# VSCode / IDEs
+.vscode/
+.idea/
+.DS_Store
