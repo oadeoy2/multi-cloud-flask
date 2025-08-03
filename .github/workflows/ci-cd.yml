@@ -10,7 +10,7 @@ jobs:
     env:
       AWS_REGION: ${{ secrets.AWS_REGION }}
       ECR_REPO: ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/flask-app
-      ACR_REPO: ${{ secrets.AZURE_ACR_NAME }}.azurecr.io/flask-app
+      ACR_REPO: ${{ secrets.AZURE_ACR_NAME }}.azurecr.io
 
     steps:
       - name: Checkout code
