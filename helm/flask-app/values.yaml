@@ -1,0 +1,27 @@
+replicaCount: 2
+
+image:
+  repository: tiangolo/uwsgi-nginx-flask
+  tag: python3.8
+  pullPolicy: Always
+
+service:
+  type: LoadBalancer
+  port: 80
+
+resources: {}
+
+autoscaling:
+  enabled: false
+
+nodeSelector: {}
+tolerations: []
+affinity: []
+
+serviceAccount:
+  create: false
+  name: ""
+  automount: false
+
+ingress:
+  enabled: false
