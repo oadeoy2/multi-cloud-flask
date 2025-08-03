@@ -1,13 +1,13 @@
 replicaCount: 2
 
 image:
-  repository: tiangolo/uwsgi-nginx-flask
-  tag: python3.8
+  repository: 478517495773.dkr.ecr.us-east-1.amazonaws.com/flask-app
+  tag: latest
   pullPolicy: Always
 
 service:
   type: LoadBalancer
-  port: 80
+  port: 5000
 
 resources: {}
 

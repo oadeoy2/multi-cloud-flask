@@ -1,0 +1,51 @@
+name: CI/CD to EKS and AKS
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    env:
+      ECR_REPO: ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/flask-app
+      ACR_REPO: ${{ secrets.AZURE_ACR_NAME }}.azurecr.io/flask-app
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Log in to Amazon ECR
+        uses: aws-actions/amazon-ecr-login@v1
+
+      - name: Log in to Azure ACR
+        run: |
+          echo ${{ secrets.AZURE_CLIENT_SECRET }} | docker login ${{ env.ACR_REPO }} \
+            --username ${{ secrets.AZURE_CLIENT_ID }} --password-stdin
+
+      - name: Build and Push to ECR
+        run: |
+          docker build -t $ECR_REPO:latest .
+          docker push $ECR_REPO:latest
+
+      - name: Build and Push to ACR
+        run: |
+          docker tag $ECR_REPO:latest $ACR_REPO:latest
+          docker push $ACR_REPO:latest
+
+      - name: Set up kubectl for EKS
+        run: |
+          echo "${{ secrets.KUBECONFIG_EKS }}" | base64 -d > kubeconfig_eks
+          export KUBECONFIG=$PWD/kubeconfig_eks
+          helm upgrade --install flask-app ./helm/flask-app \
+            --set image.repository=$ECR_REPO,image.tag=latest
+
+      - name: Set up kubectl for AKS
+        run: |
+          echo "${{ secrets.KUBECONFIG_AKS }}" | base64 -d > kubeconfig_aks
+          export KUBECONFIG=$PWD/kubeconfig_aks
+          helm upgrade --install flask-app ./helm/flask-app \
+            --set image.repository=$ACR_REPO,image.tag=latest
