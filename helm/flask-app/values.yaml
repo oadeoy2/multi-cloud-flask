@@ -1,13 +1,15 @@
 replicaCount: 2
 
 image:
-  repository: 478517495773.dkr.ecr.us-east-1.amazonaws.com/flask-app
+  repository: ""
   tag: latest
   pullPolicy: Always
 
 service:
   type: LoadBalancer
-  port: 5000
+  port: 80
+  targetPort: 5000
+  loadBalancerIP: 134.33.175.184
 
 resources: {}
 
