@@ -1,6 +1,10 @@
-from flask import Flask, jsonify
+from flask import Flask, jsonify, redirect
 
 app = Flask(__name__)
+
+@app.route('/', methods=['GET'])
+def root_redirect():
+    return redirect('/health')
 
 @app.route('/health', methods=['GET'])
 def health():

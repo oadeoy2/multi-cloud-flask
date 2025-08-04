@@ -9,7 +9,6 @@ service:
   type: LoadBalancer
   port: 80
   targetPort: 5000
-  loadBalancerIP: 134.33.175.184
 
 resources: {}
 
